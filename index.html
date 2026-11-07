@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Привычки">
+<link rel="apple-touch-icon" id="appleIcon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQwIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMjYiIHk9IjI2IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgcng9IjI4IiBmaWxsPSIjZjFmNGYxIiBzdHJva2U9IiNjM2Q2YzQiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik02MCAxMDAgbDI0IDI0IGw1MCAtNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJlN2QzMiIgc3Ryb2tlLXdpZHRoPSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
+<link rel="icon" id="favIcon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQwIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMjYiIHk9IjI2IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgcng9IjI4IiBmaWxsPSIjZjFmNGYxIiBzdHJva2U9IiNjM2Q2YzQiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik02MCAxMDAgbDI0IDI0IGw1MCAtNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJlN2QzMiIgc3Ryb2tlLXdpZHRoPSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
+<link rel="manifest" href="manifest.json">
+<title>Привычки</title>
+<style>
+  :root {
+    --text: #333333;
+    --muted: #7a7a7a;
+    --line: #e6e6e6;
+    --green: #2e7d32;
+    --red: #c62828;
+    --bg-soft: #f7f7f5;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #ffffff;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    padding: 12px 14px calc(28px + env(safe-area-inset-bottom));
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 20px; font-weight: 600; margin: 4px 0 2px; }
+  h2 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; }
+  .sub { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
+  nav { display: flex; gap: 8px; margin-bottom: 14px; }
+  nav button {
+    flex: 1; min-height: 44px; border: 1px solid var(--line); background: #fff;
+    color: var(--text); font-size: 15px; border-radius: 10px; cursor: pointer;
+  }
+  nav button.on { background: var(--bg-soft); border-color: #c9c9c4; font-weight: 600; }
+  .weeks { display: flex; gap: 6px; margin-bottom: 12px; }
+  .weeks button {
+    flex: 1; min-height: 44px; padding: 0 4px; border: 1px solid var(--line); background: #fff;
+    color: var(--text); font-size: 14px; font-family: inherit; border-radius: 10px; cursor: pointer;
+  }
+  .weeks button.on { background: #f1f4f1; border-color: #c3d6c4; color: #2b5e2f; font-weight: 600; }
+  .goal {
+    font-size: 13px; color: var(--muted); margin-top: 6px; padding-left: 40px;
+  }
+  .goal b { color: var(--text); font-weight: 600; }
+  .task-goal { border-color: #dfe6df; }
+  .task {
+    border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 10px;
+  }
+  .task-top { display: flex; align-items: center; gap: 10px; }
+  .check {
+    width: 30px; height: 30px; min-width: 30px; border-radius: 50%;
+    border: 2px solid #cfcfcf; background: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; line-height: 1; padding: 0;
+  }
+  .check.done { border-color: var(--green); color: var(--green); }
+  .check.not { border-color: var(--red); color: var(--red); }
+  .task-name { flex: 1; font-size: 16px; }
+  .task.done .task-name { color: var(--green); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .task input[type="text"] {
+    width: 100%; margin-top: 8px; padding: 10px 12px; font-size: 16px;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text);
+    font-family: inherit;
+  }
+  .task input[type="text"]:focus { outline: 2px solid #d6d6d0; border-color: #cfcfcf; }
+  .task input:disabled { background: var(--bg-soft); color: var(--muted); }
+  .row { display: flex; gap: 10px; margin-top: 6px; }
+  .row label { flex: 1; font-size: 14px; color: var(--muted); display: block; }
+  .row select {
+    width: 100%; min-height: 44px; margin-top: 4px; padding: 8px 10px; font-size: 16px;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text);
+    font-family: inherit;
+  }
+  .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+  button.main {
+    min-height: 52px; width: 100%; border-radius: 12px; font-size: 16px; font-family: inherit;
+    border: 1px solid #cfcfcf; background: #fff; color: var(--text); cursor: pointer;
+  }
+  button.main.primary { background: #f1f4f1; border-color: #c3d6c4; color: #2b5e2f; font-weight: 600; }
+  button.main:disabled { opacity: .55; cursor: default; }
+  .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+  .day {
+    border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 10px;
+  }
+  .day-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .day-title { font-weight: 600; }
+  .day-score { font-size: 14px; color: var(--muted); white-space: nowrap; }
+  .day-score b { color: var(--green); }
+  .marks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .mark {
+    font-size: 13px; border: 1px solid var(--line); border-radius: 8px; padding: 4px 7px;
+    background: #fff; white-space: nowrap;
+  }
+  .mark.y { color: var(--green); border-color: #cfe0cf; }
+  .mark.n { color: var(--red); border-color: #f0d2d2; }
+  .note-line { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .state-line { font-size: 13px; color: var(--text); margin-top: 6px; }
+  .empty { color: var(--muted); font-size: 14px; padding: 10px 0; }
+  .hidden { display: none; }
+  pre.out {
+    white-space: pre-wrap; word-wrap: break-word; font-size: 14px; line-height: 1.45;
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 12px; margin: 12px 0 0; font-family: inherit;
+  }
+</style>
+</head>
+<body>
+
+<h1>Привычки</h1>
+<nav>
+  <button id="tabToday" type="button" class="on">День</button>
+  <button id="tabHistory" type="button">История</button>
+</nav>
+
+<section id="todayView">
+  <div class="weeks" id="weeks">
+    <button type="button" data-week="1">Неделя 1</button>
+    <button type="button" data-week="2">Неделя 2</button>
+    <button type="button" data-week="3">Неделя 3</button>
+    <button type="button" data-week="4">Неделя 4</button>
+  </div>
+  <div class="sub" id="todayInfo"></div>
+  <div id="tasks"></div>
+
+  <div class="row">
+    <label>Голова
+      <select id="head">
+        <option value="">—</option>
+        <option>нормально</option>
+        <option>слабо</option>
+        <option>сильно</option>
+      </select>
+    </label>
+    <label>Кожа
+      <select id="skin">
+        <option value="">—</option>
+        <option>чистая</option>
+        <option>краснота есть</option>
+        <option>сухость</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="actions">
+    <button class="main primary" id="finishBtn" type="button">Отметить день как завершённый</button>
+    <button class="main hidden" id="unlockBtn" type="button">Разблокировать день</button>
+  </div>
+  <p class="hint">Кружок: пусто → ✓ выполнено → × не выполнено → пусто.</p>
+</section>
+
+<section id="historyView" class="hidden">
+  <div class="sub">Отметки сохраняются в этом браузере на этом устройстве.</div>
+  <div id="history"></div>
+
+  <div class="actions">
+    <button class="main" id="copyBtn" type="button">Копировать прогресс за последние 3 дня</button>
+    <button class="main" id="clearBtn" type="button">Очистить всю историю</button>
+  </div>
+  <pre class="out hidden" id="copyOut"></pre>
+  <p class="hint" id="copyHint"></p>
+</section>
+
+<script>
+(function () {
+  var STORE_KEY = "habitTrackerData";
+  var TASKS = [
+    { key: "cinovit_am", title: "Циновит (утро)", short: "Циновит утро" },
+    { key: "spf", title: "SPF", short: "SPF" },
+    { key: "tea", title: "Чай", short: "Чай 2 ложки" },
+    { key: "energy", title: "Энергетик", short: "Энергетик 0" },
+    { key: "snack", title: "Перекус", short: "Перекус" },
+    { key: "cinovit_pm", title: "Циновит (вечер)", short: "Циновит вечер" },
+    { key: "demoten", title: "Демотен", short: "Демотен" }
+  ];
+
+  var WEEKS = {
+    "1": {
+      name: "Неделя 1",
+      teaShort: "Чай 2 ложки",
+      energyShort: "Энергетик 1",
+      tea: "Цель: 2 ложки (не больше).",
+      energy: "Можно 1 в день.",
+      summary: "Чай: 2 ложки, Энергетик: 1 в день"
+    },
+    "2": {
+      name: "Неделя 2",
+      teaShort: "Чай 2 ложки/2 чашки",
+      energyShort: "Энергетик 1/2 дня",
+      tea: "Оставь сахар только в первых 2 чашках (по 2 ложки), остальные — без сахара.",
+      energy: "Максимум 1 раз в 2 дня.",
+      summary: "Чай: сахар только в первых 2 чашках, Энергетик: 1 раз в 2 дня"
+    },
+    "3": {
+      name: "Неделя 3",
+      teaShort: "Чай 1 ложка",
+      energyShort: "Энергетик 0",
+      tea: "Максимум 1 ложка в день.",
+      energy: "0 — без энергетика.",
+      summary: "Чай: максимум 1 ложка, Энергетик: 0"
+    },
+    "4": {
+      name: "Неделя 4",
+      teaShort: "Чай 1 ложка",
+      energyShort: "Энергетик 0",
+      tea: "Максимум 1 ложка в день.",
+      energy: "0 — без энергетика.",
+      summary: "Чай: максимум 1 ложка, Энергетик: 0"
+    }
+  };
+  var GOAL_KEYS = { tea: true, energy: true };
+  var DEFAULT_WEEK = "1";
+
+  var state = { days: {}, week: DEFAULT_WEEK };
+  var days = state.days;
+  var view = "today";
+  var storageOk = true;
+
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+  function todayKey() {
+    var d = new Date();
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+  function parseKey(key) {
+    var p = key.split("-");
+    return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  }
+  function fmtDate(key) {
+    var d = parseKey(key);
+    return pad(d.getDate()) + "." + pad(d.getMonth() + 1) + "." + d.getFullYear();
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      var data = JSON.parse(raw);
+      if (data && data.days && typeof data.days === "object") {
+        state.days = data.days;
+        state.week = WEEKS[data.week] ? String(data.week) : DEFAULT_WEEK;
+        days = state.days;
+      }
+    } catch (e) {
+      storageOk = false;
+    }
+  }
+  function save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    } catch (e) {
+      storageOk = false;
+    }
+  }
+
+  function dayNumber(key) {
+    var keys = Object.keys(days).sort();
+    var i = keys.indexOf(key);
+    if (i >= 0) return i + 1;
+    var count = 0;
+    for (var j = 0; j < keys.length; j++) if (keys[j] < key) count++;
+    return count + 1;
+  }
+
+  function getDay(key) {
+    var d = days[key];
+    if (!d) {
+      d = { tasks: {}, head: "", skin: "", finished: false, finishedAt: null };
+      days[key] = d;
+    }
+    if (!d.tasks) d.tasks = {};
+    for (var i = 0; i < TASKS.length; i++) {
+      var t = d.tasks[TASKS[i].key];
+      if (!t) d.tasks[TASKS[i].key] = { done: null, note: "" };
+    }
+    return d;
+  }
+
+  function markSymbol(v) { return v === true ? "[x]" : (v === false ? "[ ]" : "[ ]"); }
+
+  function currentWeek() {
+    return WEEKS[state.week] || WEEKS[DEFAULT_WEEK];
+  }
+  function taskShort(t) {
+    if (t.key === "tea") return currentWeek().teaShort;
+    if (t.key === "energy") return currentWeek().energyShort;
+    return t.short;
+  }
+  function taskGoal(t) {
+    if (t.key === "tea") return currentWeek().tea;
+    if (t.key === "energy") return currentWeek().energy;
+    return "";
+  }
+
+  function buildLine(key) {
+    var d = days[key];
+    var parts = [];
+    if (d) {
+      for (var i = 0; i < TASKS.length; i++) {
+        var t = d.tasks && d.tasks[TASKS[i].key];
+        parts.push(taskShort(TASKS[i]) + " " + markSymbol(t ? t.done : null));
+      }
+      parts.push("Голова: " + (d.head || "—"));
+      parts.push("Кожа: " + (d.skin || "—"));
+    } else {
+      for (var k = 0; k < TASKS.length; k++) parts.push(taskShort(TASKS[k]) + " [ ]");
+      parts.push("Голова: —");
+      parts.push("Кожа: —");
+    }
+    return "День " + dayNumber(key) + ": " + parts.join(", ");
+  }
+
+  function renderToday() {
+    var key = todayKey();
+    var d = getDay(key);
+    var info = document.getElementById("todayInfo");
+    var num = dayNumber(key);
+    var wk = currentWeek();
+    info.textContent = "День " + num + " · " + fmtDate(key) + (d.finished ? " · завершён" : " · в работе") +
+      "\n" + wk.name + " · " + wk.summary;
+
+    var weekBox = document.getElementById("weeks");
+    Array.prototype.forEach.call(weekBox.querySelectorAll("button"), function (b) {
+      var on = b.getAttribute("data-week") === state.week;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+
+    var box = document.getElementById("tasks");
+    box.innerHTML = "";
+    TASKS.forEach(function (t) {
+      var rec = d.tasks[t.key];
+      var goal = taskGoal(t);
+      var wrap = document.createElement("div");
+      wrap.className = "task" + (rec.done === true ? " done" : "") + (goal ? " task-goal" : "");
+
+      var top = document.createElement("div");
+      top.className = "task-top";
+
+      var chk = document.createElement("button");
+      chk.type = "button";
+      chk.className = "check" + (rec.done === true ? " done" : (rec.done === false ? " not" : ""));
+      chk.textContent = rec.done === true ? "✓" : (rec.done === false ? "×" : "");
+      chk.setAttribute("aria-label", t.title + ": отметить выполнение");
+      chk.disabled = d.finished;
+      chk.addEventListener("click", function () {
+        var dayNow = getDay(todayKey());
+        var r = dayNow.tasks[t.key];
+        var next = r.done === null ? true : (r.done === true ? false : null);
+        r.done = next;
+        save();
+        renderToday();
+      });
+
+      var name = document.createElement("div");
+      name.className = "task-name";
+      name.textContent = t.title;
+
+      top.appendChild(chk);
+      top.appendChild(name);
+      wrap.appendChild(top);
+
+      if (goal) {
+        var g = document.createElement("div");
+        g.className = "goal";
+        g.id = "hint_" + t.key;
+        var gb = document.createElement("b");
+        gb.textContent = wk.name + ": ";
+        g.appendChild(gb);
+        g.appendChild(document.createTextNode(goal));
+        wrap.appendChild(g);
+      }
+
+      var input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Заметка";
+      input.maxLength = 120;
+      input.value = rec.note || "";
+      input.disabled = d.finished;
+      input.setAttribute("aria-label", "Заметка: " + t.title);
+      input.addEventListener("input", function () {
+        getDay(todayKey()).tasks[t.key].note = input.value;
+        save();
+      });
+
+      wrap.appendChild(input);
+      box.appendChild(wrap);
+    });
+
+    var head = document.getElementById("head");
+    var skin = document.getElementById("skin");
+    head.value = d.head || "";
+    skin.value = d.skin || "";
+    head.disabled = d.finished;
+    skin.disabled = d.finished;
+
+    document.getElementById("finishBtn").classList.toggle("hidden", d.finished);
+    document.getElementById("unlockBtn").classList.toggle("hidden", !d.finished);
+  }
+
+  function renderHistory() {
+    var keys = Object.keys(days).sort().reverse();
+    var box = document.getElementById("history");
+    box.innerHTML = "";
+    if (!keys.length) {
+      var p = document.createElement("div");
+      p.className = "empty";
+      p.textContent = "Пока нет сохранённых дней. Отметьте задачи на вкладке «День».";
+      box.appendChild(p);
+      return;
+    }
+    keys.forEach(function (key) {
+      var d = days[key];
+      var card = document.createElement("div");
+      card.className = "day";
+
+      var headRow = document.createElement("div");
+      headRow.className = "day-head";
+      var title = document.createElement("div");
+      title.className = "day-title";
+      title.textContent = "День " + dayNumber(key) + " · " + fmtDate(key);
+      var done = 0, notDone = 0;
+      TASKS.forEach(function (t) {
+        var r = d.tasks && d.tasks[t.key];
+        if (r && r.done === true) done++;
+        if (r && r.done === false) notDone++;
+      });
+      var score = document.createElement("div");
+      score.className = "day-score";
+      score.innerHTML = "<b>" + done + "</b>/" + TASKS.length + (d.finished ? " · завершён" : "");
+      headRow.appendChild(title);
+      headRow.appendChild(score);
+      card.appendChild(headRow);
+
+      var marks = document.createElement("div");
+      marks.className = "marks";
+      TASKS.forEach(function (t) {
+        var r = d.tasks && d.tasks[t.key];
+        var m = document.createElement("span");
+        m.className = "mark" + (r && r.done === true ? " y" : (r && r.done === false ? " n" : ""));
+        m.textContent = (r && r.done === true ? "✓ " : (r && r.done === false ? "× " : "")) + taskShort(t);
+        marks.appendChild(m);
+      });
+      card.appendChild(marks);
+
+      var notes = [];
+      TASKS.forEach(function (t) {
+        var r = d.tasks && d.tasks[t.key];
+        if (r && r.note) notes.push(taskShort(t) + ": " + r.note);
+      });
+      if (notes.length) {
+        var nl = document.createElement("div");
+        nl.className = "note-line";
+        nl.textContent = notes.join(" · ");
+        card.appendChild(nl);
+      }
+
+      if (d.head || d.skin) {
+        var sl = document.createElement("div");
+        sl.className = "state-line";
+        sl.textContent = "Голова: " + (d.head || "—") + " · Кожа: " + (d.skin || "—");
+        card.appendChild(sl);
+      }
+
+      box.appendChild(card);
+    });
+  }
+
+  function render() {
+    if (view === "today") {
+      document.getElementById("todayView").classList.remove("hidden");
+      document.getElementById("historyView").classList.add("hidden");
+      document.getElementById("tabToday").classList.add("on");
+      document.getElementById("tabHistory").classList.remove("on");
+      renderToday();
+    } else {
+      document.getElementById("todayView").classList.add("hidden");
+      document.getElementById("historyView").classList.remove("hidden");
+      document.getElementById("tabHistory").classList.add("on");
+      document.getElementById("tabToday").classList.remove("on");
+      renderHistory();
+    }
+  }
+
+  document.getElementById("tabToday").addEventListener("click", function () { view = "today"; render(); });
+  document.getElementById("tabHistory").addEventListener("click", function () { view = "history"; render(); });
+
+  document.getElementById("weeks").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("button[data-week]") : null;
+    if (!b) return;
+    var w = b.getAttribute("data-week");
+    if (!WEEKS[w] || state.week === w) return;
+    state.week = w;
+    save();
+    renderToday();
+  });
+
+  document.getElementById("head").addEventListener("change", function (e) {
+    saveHeadSkin("head", e.target.value);
+  });
+  document.getElementById("skin").addEventListener("change", function (e) {
+    saveHeadSkin("skin", e.target.value);
+  });
+  function saveHeadSkin(field, value) {
+    var d = getDay(todayKey());
+    d[field] = value;
+    save();
+    renderToday();
+  }
+
+  document.getElementById("finishBtn").addEventListener("click", function () {
+    var d = getDay(todayKey());
+    d.finished = true;
+    d.finishedAt = new Date().toISOString();
+    save();
+    renderToday();
+  });
+
+  document.getElementById("unlockBtn").addEventListener("click", function () {
+    var d = getDay(todayKey());
+    d.finished = false;
+    d.finishedAt = null;
+    save();
+    renderToday();
+  });
+
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var keys = Object.keys(days).sort();
+    var last = keys.slice(-3);
+    var wk = currentWeek();
+    var out;
+    if (!last.length) {
+      out = "Нет данных: пока не отмечено ни одного дня.";
+    } else {
+      out = wk.name + " (" + wk.summary + ")\n" + last.map(buildLine).join("\n");
+    }
+
+    var outEl = document.getElementById("copyOut");
+    var hintEl = document.getElementById("copyHint");
+    outEl.textContent = out;
+    outEl.classList.remove("hidden");
+    hintEl.textContent = last.length ? "Текст скопирован. Если не скопировался — выделите его выше вручную." : "Добавьте отметки на вкладке «День».";
+
+    if (!last.length) return;
+    copyText(out).then(function (ok) {
+      if (!ok) hintEl.textContent = "Скопируйте текст выше вручную.";
+    });
+  });
+
+  function copyText(text) {
+    return new Promise(function (resolve) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () { resolve(true); }, function () { resolve(fallbackCopy(text)); });
+      } else {
+        resolve(fallbackCopy(text));
+      }
+    });
+  }
+  function fallbackCopy(text) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "-1000px";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  document.getElementById("clearBtn").addEventListener("click", function () {
+    if (!window.confirm("Удалить все сохранённые дни? Это нельзя отменить.")) return;
+    state = { days: {}, week: DEFAULT_WEEK };
+    days = state.days;
+    save();
+    document.getElementById("copyOut").classList.add("hidden");
+    document.getElementById("copyHint").textContent = "";
+    render();
+  });
+
+  function appIcon() {
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">' +
+      '<rect width="192" height="192" rx="40" fill="#ffffff"/>' +
+      '<rect x="26" y="26" width="140" height="140" rx="28" fill="#f1f4f1" stroke="#c3d6c4" stroke-width="4"/>' +
+      '<path d="M60 100 l24 24 l50 -54" fill="none" stroke="#2e7d32" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '</svg>';
+    return "data:image/svg+xml," + encodeURIComponent(svg);
+  }
+
+  function setupInstall() {
+    var apple = document.getElementById("appleIcon");
+    var fav = document.getElementById("favIcon");
+    if (!apple.getAttribute("href")) apple.href = appIcon();
+    if (!fav.getAttribute("href")) fav.href = appIcon();
+  }
+
+  load();
+  if (!storageOk) {
+    document.getElementById("copyHint").textContent = "Хранилище браузера недоступно: данные могут не сохраниться после закрытия страницы.";
+  }
+  render();
+  setupInstall();
+})();
+</script>
+</body>
+</html>
