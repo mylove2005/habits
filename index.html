@@ -8,8 +8,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Привычки">
-<link rel="apple-touch-icon" id="appleIcon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQwIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMjYiIHk9IjI2IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgcng9IjI4IiBmaWxsPSIjZjFmNGYxIiBzdHJva2U9IiNjM2Q2YzQiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik02MCAxMDAgbDI0IDI0IGw1MCAtNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJlN2QzMiIgc3Ryb2tlLXdpZHRoPSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
-<link rel="icon" id="favIcon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQwIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMjYiIHk9IjI2IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgcng9IjI4IiBmaWxsPSIjZjFmNGYxIiBzdHJva2U9IiNjM2Q2YzQiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik02MCAxMDAgbDI0IDI0IGw1MCAtNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJlN2QzMiIgc3Ryb2tlLXdpZHRoPSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+">
 <link rel="manifest" href="manifest.json">
 <title>Привычки</title>
 <style>
@@ -112,6 +110,53 @@
     background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px;
     padding: 10px 12px; margin: 12px 0 0; font-family: inherit;
   }
+  .course {
+    border: 1px solid #dfe6df; border-radius: 12px; padding: 12px; margin: 0 0 14px;
+    background: #fcfdfc;
+  }
+  .course-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .course-title { font-size: 16px; font-weight: 600; }
+  .course-stats { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .course-stats b { color: var(--text); }
+  .bar { height: 8px; border-radius: 5px; background: #e9ece9; margin-top: 8px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--green); }
+  .course-days { margin-top: 10px; }
+  .cday {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    border-top: 1px solid var(--line); padding: 8px 0;
+  }
+  .cday:first-child { border-top: 0; }
+  .cday-date { width: 78px; font-size: 14px; }
+  .cday-num { width: 54px; font-size: 13px; color: var(--muted); }
+  .dose {
+    height: 36px; min-width: 62px; padding: 0 8px; font-size: 14px; font-family: inherit;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text); cursor: pointer;
+  }
+  .dose.done { border-color: var(--green); color: var(--green); font-weight: 600; }
+  .dose.miss { border-color: #f0d2d2; color: var(--red); }
+  .cday.missed { background: #fdf5f5; border-radius: 8px; padding-left: 6px; padding-right: 6px; }
+  .cday.today { outline: 1px dashed #c3d6c4; outline-offset: 2px; border-radius: 8px; }
+  .cday-state { flex: 1; min-width: 120px; }
+  .cday-state input {
+    width: 100%; min-height: 36px; padding: 6px 9px; font-size: 14px; font-family: inherit;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text);
+  }
+  .course-done {
+    margin-top: 10px; padding: 10px 12px; border-radius: 10px;
+    background: #f1f4f1; border: 1px solid #c3d6c4; color: #2b5e2f; font-weight: 600;
+  }
+  .course-help { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .course-help button {
+    flex: 1; min-height: 44px; font-size: 14px; font-family: inherit;
+    border: 1px solid #cfcfcf; border-radius: 10px; background: #fff; color: var(--text); cursor: pointer;
+  }
+  .course-help button.on { background: #f1f4f1; border-color: #c3d6c4; color: #2b5e2f; font-weight: 600; }
+  .course-extra { margin-top: 10px; display: flex; gap: 10px; }
+  .course-extra label { flex: 1; font-size: 13px; color: var(--muted); }
+  .course-extra input {
+    width: 100%; min-height: 44px; margin-top: 4px; padding: 8px 10px; font-size: 16px; font-family: inherit;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text);
+  }
 </style>
 </head>
 <body>
@@ -130,6 +175,7 @@
     <button type="button" data-week="4">Неделя 4</button>
   </div>
   <div class="sub" id="todayInfo"></div>
+  <div id="course"></div>
   <div id="tasks"></div>
 
   <div class="row">
@@ -220,19 +266,34 @@
   var GOAL_KEYS = { tea: true, energy: true };
   var DEFAULT_WEEK = "1";
 
-  var state = { days: {}, week: DEFAULT_WEEK };
+  var COURSE_DEFAULTS = {
+    title: "Капли в уши (Отипакс)",
+    start: "2026-11-10",
+    days: 7,
+    alwaysDone: ["2026-11-10", "2026-11-11", "2026-11-12"],
+    doses: { am: "Утро", pm: "Вечер" },
+    stateOptions: ["норм", "не стреляет", "стреляет", "болит"]
+  };
+
+  var state = { days: {}, week: DEFAULT_WEEK, course: null };
   var days = state.days;
+  var course = null;
   var view = "today";
   var storageOk = true;
 
   function pad(n) { return n < 10 ? "0" + n : String(n); }
-  function todayKey() {
-    var d = new Date();
+  function dateKey(d) {
     return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+  function todayKey() {
+    return dateKey(new Date());
   }
   function parseKey(key) {
     var p = key.split("-");
     return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  }
+  function addDays(d, n) {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
   }
   function fmtDate(key) {
     var d = parseKey(key);
@@ -249,9 +310,40 @@
         state.week = WEEKS[data.week] ? String(data.week) : DEFAULT_WEEK;
         days = state.days;
       }
+      if (data && data.course && typeof data.course === "object") state.course = data.course;
     } catch (e) {
       storageOk = false;
     }
+  }
+
+  function newCourse() {
+    var c = {};
+    for (var k in COURSE_DEFAULTS) if (Object.prototype.hasOwnProperty.call(COURSE_DEFAULTS, k)) c[k] = COURSE_DEFAULTS[k];
+    c.doses_log = {};
+    for (var i = 0; i < c.alwaysDone.length; i++) {
+      c.doses_log[c.alwaysDone[i]] = { am: true, pm: true };
+    }
+    return c;
+  }
+  function getCourse() {
+    if (!course) {
+      course = newCourse();
+      state.course = course;
+    }
+    if (!course.doses_log) course.doses_log = {};
+    if (!course.doses) course.doses = { am: "Утро", pm: "Вечер" };
+    if (!course.stateOptions) course.stateOptions = COURSE_DEFAULTS.stateOptions.slice();
+    if (!course.start) course.start = COURSE_DEFAULTS.start;
+    if (!course.days) course.days = COURSE_DEFAULTS.days;
+    if (!course.title) course.title = COURSE_DEFAULTS.title;
+    if (!course.helped) course.helped = "";
+    return course;
+  }
+  function courseDates(c) {
+    var out = [];
+    var start = parseKey(c.start);
+    for (var i = 0; i < c.days; i++) out.push(dateKey(addDays(start, i)));
+    return out;
   }
   function save() {
     try {
@@ -284,7 +376,7 @@
     return d;
   }
 
-  function markSymbol(v) { return v === true ? "[x]" : (v === false ? "[ ]" : "[ ]"); }
+  function markSymbol(v) { return v === true ? "[x]" : "[ ]"; }
 
   function currentWeek() {
     return WEEKS[state.week] || WEEKS[DEFAULT_WEEK];
@@ -406,6 +498,181 @@
     document.getElementById("unlockBtn").classList.toggle("hidden", !d.finished);
   }
 
+  function renderCourse() {
+    var box = document.getElementById("course");
+    box.innerHTML = "";
+    var c = getCourse();
+    var today = todayKey();
+    var dates = courseDates(c);
+    var log = c.doses_log;
+
+    var card = document.createElement("div");
+    card.className = "course";
+
+    var headRow = document.createElement("div");
+    headRow.className = "course-head";
+    var ttl = document.createElement("div");
+    ttl.className = "course-title";
+    ttl.textContent = c.title;
+    var badge = document.createElement("div");
+    badge.className = "day-score";
+    badge.textContent = "старт " + fmtDate(c.start);
+    headRow.appendChild(ttl);
+    headRow.appendChild(badge);
+    card.appendChild(headRow);
+
+    var passed = 0, doneDays = 0, streak = 0;
+    var todayOk = true;
+    var totalDays = dates.length;
+    for (var i = 0; i < totalDays; i++) {
+      var key = dates[i];
+      var rec = log[key];
+      var dayDone = !!(rec && rec.am && rec.pm);
+      if (key <= today) {
+        if (dayDone) passed++;
+      }
+      if (dayDone) doneDays++; else todayOk = false;
+      if (key <= today) streak = dayDone ? streak + 1 : 0;
+      else break;
+    }
+    var left = totalDays - passed;
+    var percent = totalDays ? Math.round(doneDays / totalDays * 100) : 0;
+
+    var stats = document.createElement("div");
+    stats.className = "course-stats";
+    stats.id = "courseStats";
+    stats.innerHTML = "Пройдено дней: <b>" + passed + "</b> из " + totalDays +
+      " · Осталось: <b>" + left + "</b> · Выполнено: <b>" + percent + "%</b>" +
+      " · Серия без пропусков: <b>" + streak + "</b>";
+    card.appendChild(stats);
+    var bar = document.createElement("div");
+    bar.className = "bar";
+    var fill = document.createElement("i");
+    fill.style.width = percent + "%";
+    bar.appendChild(fill);
+    card.appendChild(bar);
+
+    var finishKey = dateKey(addDays(parseKey(c.start), totalDays - 1));
+    if (todayOk && totalDays > 0) {
+      var doneBox = document.createElement("div");
+      doneBox.className = "course-done";
+      doneBox.id = "courseDone";
+      doneBox.textContent = "Курс завершён 🎉 (" + fmtDate(finishKey) + ")";
+      card.appendChild(doneBox);
+
+      if (!c.helped) {
+        var q = document.createElement("div");
+        q.className = "course-stats";
+        q.textContent = "Помог ли курс?";
+        card.appendChild(q);
+      }
+      var help = document.createElement("div");
+      help.className = "course-help";
+      help.id = "courseHelp";
+      [["yes", "Помог"], ["no", "Не помог"], ["partly", "Не полностью"]].forEach(function (pair) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("data-help", pair[0]);
+        b.textContent = pair[1];
+        if (c.helped === pair[0]) b.classList.add("on");
+        help.appendChild(b);
+      });
+      card.appendChild(help);
+    } else if (today < dates[0]) {
+      var soon = document.createElement("div");
+      soon.className = "course-stats";
+      soon.textContent = "Курс начнётся " + fmtDate(c.start) + ".";
+      card.appendChild(soon);
+    }
+
+    var daysBox = document.createElement("div");
+    daysBox.className = "course-days";
+    dates.forEach(function (key, idx) {
+      var rec = log[key] || {};
+      var isFuture = key > today;
+      var isToday = key === today;
+      var missedDay = !isFuture && !(rec.am && rec.pm) && (rec.am === false || rec.pm === false);
+
+      var row = document.createElement("div");
+      row.className = "cday" + (missedDay ? " missed" : "") + (isToday ? " today" : "");
+      row.setAttribute("data-date", key);
+
+      var dateEl = document.createElement("div");
+      dateEl.className = "cday-date";
+      dateEl.textContent = fmtDate(key).slice(0, 5);
+
+      var numEl = document.createElement("div");
+      numEl.className = "cday-num";
+      numEl.textContent = "день " + (idx + 1);
+
+      row.appendChild(dateEl);
+      row.appendChild(numEl);
+
+      [["am", c.doses.am], ["pm", c.doses.pm]].forEach(function (pair) {
+        var slot = pair[0];
+        var val = rec[slot];
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "dose" + (val === true ? " done" : (val === false ? " miss" : ""));
+        btn.setAttribute("data-date", key);
+        btn.setAttribute("data-slot", slot);
+        btn.textContent = (val === true ? "✓ " : (val === false ? "× " : "")) + pair[1];
+        btn.setAttribute("aria-label", pair[1] + " " + fmtDate(key) + ": отметить приём");
+        row.appendChild(btn);
+      });
+
+      var stWrap = document.createElement("div");
+      stWrap.className = "cday-state";
+      var st = document.createElement("input");
+      st.type = "text";
+      st.setAttribute("list", "earStates");
+      st.placeholder = "Состояние уха";
+      st.maxLength = 60;
+      st.value = rec.state || "";
+      st.setAttribute("data-state-date", key);
+      st.setAttribute("aria-label", "Состояние уха " + fmtDate(key));
+      stWrap.appendChild(st);
+      row.appendChild(stWrap);
+
+      daysBox.appendChild(row);
+    });
+    card.appendChild(daysBox);
+
+    var extra = document.createElement("div");
+    extra.className = "course-extra";
+    var lab1 = document.createElement("label");
+    lab1.textContent = "Начало курса";
+    var startInput = document.createElement("input");
+    startInput.type = "date";
+    startInput.value = c.start;
+    startInput.id = "courseStart";
+    lab1.appendChild(startInput);
+    var lab2 = document.createElement("label");
+    lab2.textContent = "Длительность курса, дней";
+    var daysInput = document.createElement("input");
+    daysInput.type = "number";
+    daysInput.min = "1";
+    daysInput.max = "60";
+    daysInput.inputMode = "numeric";
+    daysInput.value = c.days;
+    daysInput.id = "courseLen";
+    lab2.appendChild(daysInput);
+    extra.appendChild(lab1);
+    extra.appendChild(lab2);
+    card.appendChild(extra);
+
+    var dl = document.createElement("datalist");
+    dl.id = "earStates";
+    c.stateOptions.forEach(function (o) {
+      var opt = document.createElement("option");
+      opt.value = o;
+      dl.appendChild(opt);
+    });
+    card.appendChild(dl);
+
+    box.appendChild(card);
+  }
+
   function renderHistory() {
     var keys = Object.keys(days).sort().reverse();
     var box = document.getElementById("history");
@@ -427,11 +694,10 @@
       var title = document.createElement("div");
       title.className = "day-title";
       title.textContent = "День " + dayNumber(key) + " · " + fmtDate(key);
-      var done = 0, notDone = 0;
+      var done = 0;
       TASKS.forEach(function (t) {
         var r = d.tasks && d.tasks[t.key];
         if (r && r.done === true) done++;
-        if (r && r.done === false) notDone++;
       });
       var score = document.createElement("div");
       score.className = "day-score";
@@ -481,6 +747,7 @@
       document.getElementById("tabToday").classList.add("on");
       document.getElementById("tabHistory").classList.remove("on");
       renderToday();
+      renderCourse();
     } else {
       document.getElementById("todayView").classList.add("hidden");
       document.getElementById("historyView").classList.remove("hidden");
@@ -519,7 +786,7 @@
   document.getElementById("finishBtn").addEventListener("click", function () {
     var d = getDay(todayKey());
     d.finished = true;
-    d.finishedAt = new Date().toISOString();
+    d.finishedAt = todayKey();
     save();
     renderToday();
   });
@@ -530,6 +797,63 @@
     d.finishedAt = null;
     save();
     renderToday();
+  });
+
+  function courseRec(dateKeyName) {
+    var c = getCourse();
+    if (!c.doses_log[dateKeyName]) c.doses_log[dateKeyName] = {};
+    return c.doses_log[dateKeyName];
+  }
+
+  document.getElementById("course").addEventListener("click", function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var dose = t.closest("button.dose");
+    if (dose) {
+      var key = dose.getAttribute("data-date");
+      var slot = dose.getAttribute("data-slot");
+      var rec = courseRec(key);
+      var cur = rec[slot];
+      var next = (cur === undefined || cur === null) ? true : (cur === true ? false : null);
+      if (next === null) delete rec[slot];
+      else rec[slot] = next;
+      save();
+      renderCourse();
+      return;
+    }
+    var helpBtn = t.closest("button[data-help]");
+    if (helpBtn) {
+      var c = getCourse();
+      var v = helpBtn.getAttribute("data-help");
+      c.helped = c.helped === v ? "" : v;
+      save();
+      renderCourse();
+    }
+  });
+
+  document.getElementById("course").addEventListener("input", function (e) {
+    var t = e.target;
+    if (!t || !t.getAttribute) return;
+    var dKey = t.getAttribute("data-state-date");
+    if (dKey) {
+      courseRec(dKey).state = t.value;
+      save();
+      return;
+    }
+    if (t.id === "courseStart" && /^\d{4}-\d{2}-\d{2}$/.test(t.value)) {
+      getCourse().start = t.value;
+      save();
+      renderCourse();
+      return;
+    }
+    if (t.id === "courseLen") {
+      var n = parseInt(t.value, 10);
+      if (n >= 1 && n <= 60) {
+        getCourse().days = n;
+        save();
+        renderCourse();
+      }
+    }
   });
 
   document.getElementById("copyBtn").addEventListener("click", function () {
@@ -583,8 +907,11 @@
 
   document.getElementById("clearBtn").addEventListener("click", function () {
     if (!window.confirm("Удалить все сохранённые дни? Это нельзя отменить.")) return;
-    state = { days: {}, week: DEFAULT_WEEK };
+    state = { days: {}, week: DEFAULT_WEEK, course: null };
     days = state.days;
+    course = null;
+    save();
+    getCourse();
     save();
     document.getElementById("copyOut").classList.add("hidden");
     document.getElementById("copyHint").textContent = "";
@@ -603,14 +930,16 @@
   function setupInstall() {
     var apple = document.getElementById("appleIcon");
     var fav = document.getElementById("favIcon");
-    if (!apple.getAttribute("href")) apple.href = appIcon();
-    if (!fav.getAttribute("href")) fav.href = appIcon();
+    if (apple && !apple.getAttribute("href")) apple.href = appIcon();
+    if (fav && !fav.getAttribute("href")) fav.href = appIcon();
   }
 
   load();
   if (!storageOk) {
     document.getElementById("copyHint").textContent = "Хранилище браузера недоступно: данные могут не сохраниться после закрытия страницы.";
   }
+  getCourse();
+  save();
   render();
   setupInstall();
 })();
