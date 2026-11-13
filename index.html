@@ -158,9 +158,57 @@
     border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text);
   }
 </style>
+  body[data-theme="cartoon"] {
+    background-color: #dff3ff;
+    background-image:
+      radial-gradient(circle at 15% 9%, #ffe98a 0 46px, transparent 47px),
+      radial-gradient(circle at 82% 7%, #ffffff 0 34px, transparent 35px),
+      radial-gradient(circle at 88% 13%, #ffffff 0 24px, transparent 25px),
+      linear-gradient(#b6e6ff 0 210px, #dff3ff 210px 100%);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+  body[data-theme="cartoon"] h1 {
+    font-size: 24px; color: #123a5c;
+    text-shadow: 2px 2px 0 #ffffff, 4px 4px 0 rgba(60,120,170,.18);
+  }
+  body[data-theme="cartoon"] .task,
+  body[data-theme="cartoon"] .day,
+  body[data-theme="cartoon"] .course {
+    border: 3px solid #2b6d8f; border-radius: 18px; background: #fffdf6;
+    box-shadow: 4px 4px 0 rgba(43,109,143,.25);
+  }
+  body[data-theme="cartoon"] .task.done { background: #eafbef; }
+  body[data-theme="cartoon"] .check { border-width: 3px; border-color: #9db7c4; }
+  body[data-theme="cartoon"] .check.done { background: #e6f7e8; }
+  body[data-theme="cartoon"] .check.not { background: #fdeaea; }
+  body[data-theme="cartoon"] nav button,
+  body[data-theme="cartoon"] .weeks button,
+  body[data-theme="cartoon"] button.main,
+  body[data-theme="cartoon"] .dose {
+    border: 2px solid #2b6d8f; border-radius: 14px; background: #ffffff;
+    box-shadow: 3px 3px 0 rgba(43,109,143,.22); font-weight: 600;
+  }
+  body[data-theme="cartoon"] nav button.on,
+  body[data-theme="cartoon"] .weeks button.on,
+  body[data-theme="cartoon"] button.main.primary { background: #ffe98a; color: #5a3d00; }
+  body[data-theme="cartoon"] .goal { color: #2b5f7d; }
+  body[data-theme="cartoon"] .course-done { background: #ffe98a; border-color: #2b6d8f; color: #5a3d00; }
+  body[data-theme="cartoon"] .bar { background: #cfe6f2; }
+  body[data-theme="cartoon"] .hint { color: #3d6b85; }
+  #themes { display: flex; gap: 6px; margin: 6px 0 12px; flex-wrap: wrap; }
+  #themes button {
+    min-height: 36px; padding: 0 10px; font-size: 13px; font-family: inherit;
+    border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--text); cursor: pointer;
+  }
+  #themes button.on { border-color: #2b6d8f; background: #fff6d6; font-weight: 600; }
 </head>
 <body>
 
+<div id="themes">
+  <button type="button" data-theme-name="light">Обычный</button>
+  <button type="button" data-theme-name="cartoon" class="on">Мультяшный</button>
+</div>
 <h1>Привычки</h1>
 <nav>
   <button id="tabToday" type="button" class="on">День</button>
@@ -279,6 +327,7 @@
   var days = state.days;
   var course = null;
   var view = "today";
+  var THEME_KEY = "habitTheme";
   var storageOk = true;
 
   function pad(n) { return n < 10 ? "0" + n : String(n); }
@@ -737,6 +786,16 @@
       }
 
       box.appendChild(card);
+    });
+  }
+
+  function applyTheme(name) {
+    var n = name || "cartoon";
+    document.body.setAttribute("data-theme", n);
+    try { localStorage.setItem(THEME_KEY, n); } catch (e) {}
+    var btns = document.querySelectorAll("#themes button");
+    Array.prototype.forEach.call(btns, function (b) {
+      b.classList.toggle("on", b.getAttribute("data-theme-name") === n);
     });
   }
 
